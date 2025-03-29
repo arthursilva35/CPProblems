@@ -43,26 +43,29 @@ signed main(){
                 
             }
 
-            else if(j - w[i-1].c >= 0 && dp[i][j- w[i-1].c] != -1 &&  w[i-1].a >= w[i-1].b * (int) j/(j-w[i-1].c)){ // testa repetição de elmentos (esse é um problema de unbound knapsack)
-                dp[i][j] = max(dp[i][j], dp[i][j - w[i-1].c] + w[i-1].d);
+            if(j - w[i-1].c > 0 && dp[i][j- w[i-1].c] != -1 ){ // testa repetição de elmentos (esse é um problema de unbound knapsack)
+                // &&  w[i-1].a >= w[i-1].b * (int) j/(j-w[i-1].c)
 
+                if(w[i-1].a >= w[i-1].b * (int) j/(j-w[i-1].c)){
+                    dp[i][j] = max(dp[i][j], dp[i][j - w[i-1].c] + w[i-1].d);
+                }
             }
             
-            else if(j - nat_c >= 0){ // da pra fazer whey natural
-                dp[i][j] = max(dp[i][j], max(dp[i][j], (int) 0) + ((int) (j / nat_c)) * nat_d); // vale a pena fazer whey natural ou nao
+            if(j - nat_c >= 0){ // da pra fazer whey natural
+                dp[i][j] = max(dp[i][j], ((int) (j / nat_c)) * nat_d); // vale a pena fazer whey natural ou nao
                 
             }
         }
     }
     
     
-    // cout << dp[m][n];
+    cout << dp[m][n];
     
-    for(int i = 0; i <= m; i++){
+/*  for(int i = 0; i <= m; i++){
         for(int j = 0; j <= n; j++){
             cout << dp[i][j] << " ";
         }
 
         cout << endl;
-    }
+    } */
 }
