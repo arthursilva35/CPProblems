@@ -44,7 +44,6 @@ signed main(){
             }
 
             else if(j - w[i-1].c >= 0 && dp[i][j- w[i-1].c] != -1 &&  w[i-1].a >= w[i-1].b * (int) j/(j-w[i-1].c)){ // testa repetição de elmentos (esse é um problema de unbound knapsack)
-                // &&  w[i-1].a >= w[i-1].b * (int) j/(j-w[i-1].c)
                 dp[i][j] = max(dp[i][j], dp[i][j - w[i-1].c] + w[i-1].d);
 
             }
