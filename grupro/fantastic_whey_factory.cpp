@@ -14,7 +14,7 @@ signed main(){
     
     vector<whey> w(m);
     
-     // dp[i][j] guarda o maximo de birls que da p fazer usando j grams de casein, com as i primeiras essências 
+     // dp[i][j] guarda o maximo de birls que da p fazer usando j grams de caseina, com as i primeiras essências 
     vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
     
     for(int i = 0; i < m; i++){
@@ -29,13 +29,13 @@ signed main(){
     
     // caso base
     for(int i = 0; i <= m; i++){
-        dp[i][0] = 0; // não dá pra lucrar com 0 gramas de casein
+        dp[i][0] = 0; 
     }
     
     
     for(int i = 1; i <= m; i++){
         for(int j = 1; j<= n; j++){
-            dp[i][j]  = dp[i-1][j]; // propagation
+            dp[i][j]  = dp[i-1][j];
             
 
             if(j - w[i-1].c >= 0 && w[i-1].a >= w[i-1].b && dp[i-1][j- w[i-1].c] != -1){
@@ -43,9 +43,7 @@ signed main(){
                 
             }
 
-            if(j - w[i-1].c > 0 && dp[i][j- w[i-1].c] != -1 ){ // testa repetição de elmentos (esse é um problema de unbound knapsack)
-                // &&  w[i-1].a >= w[i-1].b * (int) j/(j-w[i-1].c)
-
+            else if(j - w[i-1].c > 0 && dp[i][j- w[i-1].c] != -1 ){ // testa repetição de elementos
                 if(w[i-1].a >= w[i-1].b * (int) j/(j-w[i-1].c)){
                     dp[i][j] = max(dp[i][j], dp[i][j - w[i-1].c] + w[i-1].d);
                 }
@@ -60,12 +58,12 @@ signed main(){
     
     
     cout << dp[m][n];
-    
-/*  for(int i = 0; i <= m; i++){
-        for(int j = 0; j <= n; j++){
-            cout << dp[i][j] << " ";
-        }
+        
+/*     for(int i = 0; i <= m; i++){
+            for(int j = 0; j <= n; j++){
+                cout << dp[i][j] << " ";
+            }
 
-        cout << endl;
-    } */
+            cout << endl;
+    }  */
 }
