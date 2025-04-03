@@ -29,29 +29,27 @@ signed main(){
     
     // caso base
     for(int i = 0; i <= m; i++){
-        dp[i][0] = 0; 
+        dp[i][0] = 0; // com 0 gramas de caseina nao da pra fazer nenhum whey
+    }
+
+    for(int j = 0; j <= n; j++){
+        dp[0][j] = ((int) j / nat_c) * nat_d; // com 0 sabores só dá pra fazer why natural
     }
     
-    
     for(int i = 1; i <= m; i++){
+
         for(int j = 1; j<= n; j++){
-            dp[i][j]  = dp[i-1][j];
+            dp[i][j]  = dp[i-1][j]; // no take
             
+            int max_k = min(j/ w[i -1].c, w[i-1].a/ w[i-1].b); // limita pela quantitade de caseina ou essencia
 
-            if(j - w[i-1].c >= 0 && w[i-1].a >= w[i-1].b && dp[i-1][j- w[i-1].c] != -1){
-                dp[i][j] = max(dp[i][j], dp[i-1][j - w[i-1].c] + w[i-1].d);            
+            if(dp[i][j - w[i-1].c] >= 0){
                 
-            }
-
-            else if(j - w[i-1].c > 0 && dp[i][j- w[i-1].c] != -1 ){ // testa repetição de elementos
-                if(w[i-1].a >= w[i-1].b * (int) j/(j-w[i-1].c)){
-                    dp[i][j] = max(dp[i][j], dp[i][j - w[i-1].c] + w[i-1].d);
-                }
-            }
-            
-            if(j - nat_c >= 0){ // da pra fazer whey natural
-                dp[i][j] = max(dp[i][j], ((int) (j / nat_c)) * nat_d); // vale a pena fazer whey natural ou nao
-                
+                for(int k = 1; k <= max_k; k++){
+                    if(j - w[i -1].c * k >= 0 && dp[i-1][j - k * w[i-1].c] != -1){
+                        dp[i][j] = max(dp[i][j], dp[i-1][j - k * w[i-1].c] + k * w[i-1].d); // take
+                    }
+                }   
             }
         }
     }
