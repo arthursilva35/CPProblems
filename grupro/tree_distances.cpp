@@ -3,46 +3,37 @@
 #define int long long
 using namespace std;
 
+// https://cp-algorithms.com/graph/breadth-first-search.html
 
-int BFS(int s, int target, vector<vector<int>>& g) // retorna a distancia de s até target (faz uma DFS pra achar)
+int BFS(int s, vector<vector<int>>& g) // retorna a soma das distancia de s até todos os outros vertices (faz uma BFS pra achar)
 {
     queue<int> q;
     vector<bool> used(g.size());
-    
-    int total = 0;
+    vector<int> dist(g.size(), 0); // store the distance from the root to each node
     
     q.push(s);
+    used[s] = true;
     
     while(!q.empty()){
         int cur = q.front();
         q.pop();
-        
-        if(used[cur]){
-            
-            total--;
-            
-            continue;
-        }
-        else{
+               
+        for(auto i : g[cur]){
 
-            used[cur] = true;            
-            
-            if(cur == target) break;
-            total++;
-
-            cout << "visitando " << cur <<  " total atual " << total << endl;
-
-            vector<int> v = g[cur];
-            
-            for(int i = 0; i < v.size(); i++){
-
-                q.push(v[i]);
+            if(!used[i]){
+                used[i] = true;
+                q.push(i);
+                dist[i] = dist[cur] + 1;
             }
         }
     }
 
-    cout << "achou " << target <<  " total " << total << endl;
-    
+    int total = 0;
+
+    for(int i = 0; i < g.size(); i++){
+        total += dist[i];
+    }
+
     return total;
 }
 
@@ -64,19 +55,9 @@ signed main()
         graph[end -1].push_back(start - 1);
 
     }
-
-    cout << BFS(0, 3, graph);
     
-/*     for(int i = 0; i < n; i++){
-        int total = 0;
-        
-        for(int j = 0; j < n; j++){
-            if(i == j) continue;
-
-            total += DFS(i, j, graph);
-        }
-
-        cout << total << " ";
-    } */
+    for(int i = 0; i < n; i++){
+        cout << BFS(i, graph) << " ";
+    }
     
 }
