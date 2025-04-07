@@ -1,1 +1,2 @@
-# CPProblems
+# Competitive Programming Problems
+
